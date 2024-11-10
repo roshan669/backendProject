@@ -1,4 +1,5 @@
 #Roshan dhami
 
-This is learning my leaning phase of backend
+I learnt so much from this project
 
+thanks to hitesh chaudhary (chai aur code )❤️
