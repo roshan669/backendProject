@@ -42,7 +42,7 @@ router.route("/channel/:username").get(getUserChannelProfile);
 
 router.route("/change-pass").post(verifyJWT, changeCurrentPassword);
 
-router.route("/current-user").get(getCurrentUser);
+router.route("/current-user").get(verifyJWT, getCurrentUser);
 
 router.route("/update-account").patch(verifyJWT, updateAccountDetails);
 
