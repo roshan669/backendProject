@@ -7,9 +7,21 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 const toggleVideoLike = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
-  //TODO: toggle like on video
   if (!videoId) {
-    throw new ApiError(400, "No videoId");
+    throw new ApiError(400, "videoId is required");
+  }
+
+  const existingLike = await Like.findOne({
+    video: videoId,
+    likedBy: req.user?.id,
+  });
+
+  if (existingLike) {
+    await Like.findOneAndDelete(existingLike._id);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, existingLike, "Video Unliked successfully"));
   }
 
   const like = await Like.create({
@@ -33,6 +45,19 @@ const toggleCommentLike = asyncHandler(async (req, res) => {
     throw new ApiError(400, "No videoId");
   }
 
+  const existingLike = await Like.findOne({
+    comment: commentId,
+    likedBy: req.user?.id,
+  });
+
+  if (existingLike) {
+    await Like.findOneAndDelete(existingLike._id);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, existingLike, "Video Unliked successfully"));
+  }
+
   const like = await Like.create({
     comment: commentId,
     likedBy: req.user?.id,
@@ -52,6 +77,19 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
   //TODO: toggle like on tweet
   if (!tweetId) {
     throw new ApiError(400, "No videoId");
+  }
+
+  const existingLike = await Like.findOne({
+    tweet: tweetId,
+    likedBy: req.user?.id,
+  });
+
+  if (existingLike) {
+    await Like.findOneAndDelete(existingLike._id);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, existingLike, "Video Unliked successfully"));
   }
 
   const like = await Like.create({

@@ -136,6 +136,18 @@ const getVideoById = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Video not found");
   }
 
+  await Video.findByIdAndUpdate(
+    videoId,
+    {
+      $inc: {
+        views: 1,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { $addToSet: { watchHistory: videoId } }, // Avoid duplicates
